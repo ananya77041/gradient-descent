@@ -1,6 +1,7 @@
 #!/user/bin/python
 
 import numpy as np
+from math import log, e
 
 # computes the cost of using theta as the
 # parameter for linear regression to fit the data points in X and y
@@ -13,6 +14,28 @@ def computeCost(X, y, theta):
 		y_i = y[i]
 		sum = sum + (h_theta_i - y_i)**2
 	return sum/(2*m)
+
+def computeLogisticCost(X, y, theta):
+	m = len(y) # number of training examples
+	grad = np.zeros(len(theta))
+	for j in range(len(theta)):
+		sum_grad = 0
+		sum = 0
+		for i in range(m):
+			x_i = X[:,i]
+			h_theta_i = sigmoid(np.dot(x_i,theta))
+			y_i = y[i]
+			x_j_i = X[j,i]
+			sum_grad = sum_grad + (h_theta_i-y_i)*x_j_i
+			sum = sum + (-y_i*log(h_theta_i)-(1-y_i)*log(1-h_theta_i))
+		cost = sum/m		
+		grad[j] = sum_grad/m
+	
+	return cost, grad
+
+def sigmoid(z):
+	g = 1/(1+e**(-z))
+	return g
 
 # updates theta by taking num_iters gradient steps with learning rate alpha
 def gradientDescent(X, y, theta, alpha, num_iters):
