@@ -1,5 +1,9 @@
 #!/user/bin/python
 
+# Effect of population on food truck profits
+# Example of linear regression with one variable
+
+import gradient_descent as gd
 import numpy as np
 import pylab
 import matplotlib.pyplot as plt
@@ -10,38 +14,6 @@ data = np.loadtxt('ex1data1.txt', delimiter=',')
 X = data[:,0]
 y = data[:,1]
 m = len(y)
-
-# computes the cost of using theta as the
-# parameter for linear regression to fit the data points in X and y
-def computeCost(X, y, theta):
-	m = len(y) # number of training examples
-	sum = 0
-	for i in range(m):
-		h_theta_i = np.dot(np.transpose(theta),X[:,i])
-		y_i = y[i]
-		sum = sum + (h_theta_i - y_i)**2
-	return sum/(2*m)
-
-# updates theta by taking num_iters gradient steps with learning rate alpha
-def gradientDescent(X, y, theta, alpha, num_iters):
-	m = len(y)
-	J_history = np.zeros(num_iters)
-
-	for iter in range(num_iters):
-		theta_new = np.zeros(2)
-		for j in range(len(theta)):
-			sum = 0
-			for i in range(m):
-				h_theta_i = np.dot(np.transpose(theta),X[:,i])
-				y_i = y[i]
-				x_j_i = X[j,i]
-				sum = sum + (h_theta_i-y_i)*x_j_i
-			theta_new[j] = theta[j] - alpha*sum/m
-		theta = theta_new
-		J_history[iter] = computeCost(X,y,theta)
-
-	return theta, J_history
-
 
 # Plot the data
 plt.figure(1)
@@ -56,7 +28,7 @@ theta = np.zeros((2,1))
 iterations = 1500
 alpha = 0.01
 
-theta, J_history = gradientDescent(X, y, theta, alpha, iterations)
+theta, J_history = gd.gradientDescent(X, y, theta, alpha, iterations)
 print('Theta found by gradient descent: ')
 print(theta[0], theta[1])
 
@@ -81,7 +53,7 @@ J_vals = np.zeros((len(theta0_vals), len(theta1_vals)))
 for i in range(len(theta0_vals)):
 	for j in range(len(theta1_vals)):
 		t = np.transpose(np.array([theta0_vals[i], theta1_vals[j]]))
-		J_vals[i,j] = computeCost(X, y, t)
+		J_vals[i,j] = gd.computeCost(X, y, t)
 
 # Surface plot of J
 fig = plt.figure(2)
