@@ -22,8 +22,8 @@ plt.xlabel('Population of City in 10,000s')
 plt.ylabel('Profit in $10,000s')
 
 # Gradient Descent
-X = np.array([np.ones(m), data[:,0]])
-theta = np.zeros((2,1))
+X = np.array([np.ones(m), data[:, 0]])
+theta = np.zeros((2, 1))
 
 iterations = 1500
 alpha = 0.01
@@ -34,7 +34,7 @@ print(theta[0], theta[1])
 
 
 plt.hold(True)
-plt.plot(X[1,:], np.dot(np.transpose(X),theta), '-')
+plt.plot(X[1, :], np.dot(np.transpose(X), theta), '-')
 plt.legend(('Training Data', 'Linear Regression'), loc='lower right')
 
 
@@ -44,8 +44,8 @@ print("Predicted profits for 35000 people: ", predict1)
 print("Predicted profits for 70000 people: ", predict2)
 
 # Visualizing cost function J
-theta0_vals = np.linspace(-10,10,num=100)
-theta1_vals = np.linspace(-1,4,num=100)
+theta0_vals = np.linspace(-10, 10, num = 100)
+theta1_vals = np.linspace(-1, 4, num = 100)
 surf_X, surf_Y = np.meshgrid(theta0_vals, theta1_vals)
 
 J_vals = np.zeros((len(theta0_vals), len(theta1_vals)))
