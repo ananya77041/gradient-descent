@@ -1,7 +1,7 @@
 #!/user/bin/python
 
 import numpy as np
-from math import log, e
+
 
 def sigmoid(z):
 	'''
@@ -11,15 +11,15 @@ def sigmoid(z):
 	'''
 	return 1. / (1 + e ** (-z))
 
-# computes the cost of using theta as the
-# parameter for linear regression to fit the data points in X and y
+
 def computeCost(X, y, theta):
 	'''
 	Computes cost of using theta as the parameter for LinReg on X and y
 		INPUT: ndarray, ndarray, ndarray
 		OUTPUT: float
 	'''
-	return sum([(np.dot(X[:, i], theta) - y[i]) ** 2 for i in xrange(len(y))]) / (2 * len(y))
+	return sum([(np.dot(X[:, i], theta) - y[i]) ** 2
+				for i in xrange(len(y))]) / (2 * len(y))
 
 
 def computeLogisticCost(X, y, theta):
@@ -34,17 +34,16 @@ def computeLogisticCost(X, y, theta):
 		sum_grad = 0
 		sum = 0
 		for i in range(len(y)):
-			h_theta_i = sigmoid(np.dot(X[:,i], theta))
+			h_theta_i = sigmoid(np.dot(X[:, i], theta))
 			sum_grad += (h_theta_i - y[i]) * X[j, i]
 			sum += (- y[i] * np.log(h_theta_i) - (1 - y[i]) * np.log(1 - h_theta_i))
 
 		cost = sum / float(len(y))		
 		grad[j] = sum_grad / float(len(y))
-	
+
 	return cost, grad
 
 
-# updates theta by taking num_iters gradient steps with learning rate alpha
 def gradientDescent(X, y, theta, alpha, num_iters):
 	'''
 	Updates theta by taking num_iters gradient descent steps with learning
@@ -55,7 +54,7 @@ def gradientDescent(X, y, theta, alpha, num_iters):
 	J_history = np.zeros(num_iters)
 
 	for iter in xrange(num_iters):
-		theta_new = np.zeros((len(theta),1))
+		theta_new = np.zeros((len(theta), 1))
 
 		for j in xrange(len(theta)):
 			sum = 0
@@ -71,13 +70,14 @@ def gradientDescent(X, y, theta, alpha, num_iters):
 
 	return theta, J_history
 
+
 def featureNormalize(X):
 	'''
 	Normalizes features in X based on mean and std deviation
 		INPUT: ndarray
 		OUTPUT: ndarray, float, float
 	'''
-	X_norm = X;
+	X_norm = X
 	mu = np.zeros(len(X[:, 0]))
 	sigma = np.zeros(len(X[:, 0]))
 
@@ -87,9 +87,10 @@ def featureNormalize(X):
 			sigma[i] = 1
 		else:
 			sigma[i] = np.std(X[i, :])
-			X_norm[i,: ] -= mu[i] / sigma[i]
+			X_norm[i, :] -= mu[i] / sigma[i]
 
 	return X_norm, mu, sigma
+
 
 def normalEqn(X, y):
 	'''
